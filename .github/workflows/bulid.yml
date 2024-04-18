@@ -90,7 +90,6 @@ jobs:
 
     - name: Update
       run: |
-        python main.py -t 1 ph
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         git add app_version.json app_code.json
