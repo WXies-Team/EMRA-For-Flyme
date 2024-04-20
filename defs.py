@@ -304,7 +304,7 @@ def delete_files_and_folders():
 
 def git_push():
     device_name = input("机型：")
-    os_version = input("版本号")
+    os_version = input("版本号：")
     commit_text = "Update Version"
     commit = f"{commit_text} {device_name} {os_version}"
     subprocess.run(["git", "add", "phone/"]) 
