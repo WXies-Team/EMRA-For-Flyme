@@ -1,4 +1,4 @@
-name: EMRA-For-Flyme
+name: Analyze & Push
 
 on:
   workflow_dispatch:
@@ -15,7 +15,7 @@ on:
 
 
 jobs:
-  build:
+  Analyze:
     runs-on: ubuntu-latest
 
     steps:
