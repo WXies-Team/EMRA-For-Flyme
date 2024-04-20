@@ -6,6 +6,13 @@ on:
       link:
         description: 'ROM 链接'
         required: true
+      devicename:
+        description: '设备名'
+        required: false
+      osversion:
+        description: '系统版本'
+        required: false
+
 
 jobs:
   build:
@@ -93,5 +100,5 @@ jobs:
         git config --global user.email "${GITHUB_ACTOR}@users.noreply.github.com"
         git config --global user.name "${GITHUB_ACTOR}"
         git add app_version.json app_code.json
-        git commit -m "Update app_version.json & app_code.json"
+        git commit -m "Update Version ${{ github.event.inputs.devicename }} ${{ github.event.inputs.osversion }}"
         git push origin main
