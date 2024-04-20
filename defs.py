@@ -300,3 +300,13 @@ def delete_files_and_folders():
                 print(f"{folder} 不是文件夹")
         else:
             print(f"{folder} 不存在")
+
+
+def git_push():
+    device_name = input("机型：")
+    os_version = input("版本号")
+    commit_text = "Update Version"
+    commit = f"{commit_text} {device_name} {os_version}"
+    subprocess.run(["git", "add", "phone/"]) 
+    subprocess.run(["git", "commit","-m",commit]) 
+    subprocess.run(["git", "push"]) 
