@@ -54,7 +54,7 @@ def init_json():
 
 def download_rom(url):
     """从给定的URL下载ROM"""
-    subprocess.run(["aria2c", "-x16", "-s16",url])
+    subprocess.run(["aria2c", "-x16", "-s16", url])
 
 
 def extract_payload_bin(zip_files):
@@ -70,19 +70,22 @@ def extract_img():
     # 使用 subprocess 模块运行 shell 命令，执行 payload-dumper-go 的命令，从 payload.bin 文件中提取指定镜像文件
     # -c 参数指定最大并发数为 8，-o 指定提取后的文件输出到当前目录下
     # -p 参数指定提取指定镜像，"payload.bin" 为输入文件
-    subprocess.run(["./payload-dumper-go", "-c", "8", "-o","./", "-p", "system", "payload.bin"])
+    subprocess.run(["./payload-dumper-go", "-c", "8", "-o",
+                   "./", "-p", "system", "payload.bin"])
 
 
 def extract_files():
     try:
         # 使用 subprocess 模块运行 shell 命令，提取镜像文件中的文件
         # 使用 file 命令获取当前镜像打包格式
-        output = subprocess.check_output(["file", "system.img"]).decode("utf-8")
+        output = subprocess.check_output(
+            ["file", "system.img"]).decode("utf-8")
         print("当前镜像打包格式:", output)
         if "EROFS filesystem" in output:
             # 如果输出内容包含 EROFS filesystem 则使用 extract.erofs 解压
             # -i 参数指定输入的镜像文件为，-x 参数指定提取文件，-T 参数指定使用线程提取文件
-            subprocess.run(["./extract.erofs", "-i", "system.img", "-x", "-T16"])
+            subprocess.run(
+                ["./extract.erofs", "-i", "system.img", "-x", "-T16"])
         elif "data" in output:
             # 如果输出内容包含 data 则使用7zip解压
             # x 参数指定输入的镜像文件为，-o 提取指定提取文件到目录下
@@ -103,7 +106,6 @@ def extract_files():
                     break
     except FileNotFoundError:
         print("无法获取设备名。")
-
 
 
 def remove_some_apk(exclude_apk):
@@ -175,36 +177,40 @@ def update_apk_version(apk_version, apk_code, apk_code_name):
                         if apk_version[x] == y:
                             # 更新本地词典中的版本号
                             apk_version[x] = y
-                            apk_code[x] = int(z) # 以 int 格式写入
-                            apk_code_name[x] = int(z) # 以 int 格式写入
+                            apk_code[x] = int(z)  # 以 int 格式写入
+                            apk_code_name[x] = int(z)  # 以 int 格式写入
                             # 复制新版本的 APK 文件到 update_apk 文件夹
                             src = os.path.join(output_dir, apk_file)
                             dst = os.path.join(update_apk_folder, apk_file)
                             shutil.copy2(src, dst)
-                            print(f'已将 {apk_file} 复制到 {update_apk_folder} 文件夹\n')
+                            print(f'已将 {apk_file} 复制到 {
+                                  update_apk_folder} 文件夹\n')
                         else:
                             # 更新本地词典中的版本号
                             apk_version[x] = y
-                            apk_code[x] = int(z) # 以 int 格式写入
+                            apk_code[x] = int(z)  # 以 int 格式写入
                             # 复制新版本的 APK 文件到 update_apk 文件夹
                             src = os.path.join(output_dir, apk_file)
                             dst = os.path.join(update_apk_folder, apk_file)
                             shutil.copy2(src, dst)
-                            print(f'已将 {apk_file} 复制到 {update_apk_folder} 文件夹\n')
+                            print(f'已将 {apk_file} 复制到 {
+                                  update_apk_folder} 文件夹\n')
                     elif apk_code[x] == int(z):
                         if apk_version[x] != y:
                             print(f'疑似更新 {x}：{apk_version[x]} -> {y}')
                             # 复制新版本的 APK 文件到 update_name_apk 文件夹
                             src = os.path.join(output_dir, apk_file)
-                            dst = os.path.join(update_apk_name_folder, apk_file)
+                            dst = os.path.join(
+                                update_apk_name_folder, apk_file)
                             shutil.copy2(src, dst)
-                            print(f'已将 {apk_file} 复制到 {update_apk_name_folder} 文件夹\n')
+                            print(f'已将 {apk_file} 复制到 {
+                                  update_apk_name_folder} 文件夹\n')
                 # 如果包名不在本地词典中
                 else:
                     print(f'添加新应用 {x}:{y}({z})\n')
                     # 在本地词典中添加新的包名和版本号
                     apk_version[x] = y
-                    apk_code[x] = int(z) # 以 int 格式写入
+                    apk_code[x] = int(z)  # 以 int 格式写入
             except Exception as e:
                 print(f"异常，报错信息: {e}")
                 return
@@ -236,7 +242,6 @@ def update_apk_name():
     else:
         apk_code_name = {}
 
-
     def rename_files_in_folder(folder, name_dict, code_dict):
         for apk_file in os.listdir(folder):
             # 如果文件名以".apk"结尾
@@ -251,7 +256,7 @@ def update_apk_name():
                         new_apk_file_1 = f'{new_x}_{y}({z}).apk'
                         # 修改为新定义的文件名
                         os.rename(os.path.join(folder, apk_file),
-                                 os.path.join(folder, new_apk_file_1))
+                                  os.path.join(folder, new_apk_file_1))
                         print(f'修改 {apk_file} -> {new_apk_file_1}')
                     else:
                         # 定义修改的文件名
@@ -259,7 +264,7 @@ def update_apk_name():
                         new_apk_file_2 = f'{new_x}_{y}({z}).apk'
                         # 修改为新定义的文件名
                         os.rename(os.path.join(folder, apk_file),
-                                 os.path.join(folder, new_apk_file_2))
+                                  os.path.join(folder, new_apk_file_2))
                         print(f'修改 {apk_file} -> {new_apk_file_2}')
 
     # 重命名 output_dir 中的 APK 文件
@@ -275,7 +280,8 @@ def update_apk_name():
 def delete_files_and_folders():
     """删除指定的文件和文件夹"""
     files_to_delete = ["payload.bin", "system.img", "app_code_name.json"]
-    folders_to_delete = ["output_apk", "update_apk", "update_name_apk", "config", "system"]
+    folders_to_delete = ["output_apk", "update_apk",
+                         "update_name_apk", "config", "system"]
 
     for file in files_to_delete:
         if os.path.exists(file):
@@ -307,6 +313,6 @@ def git_push():
     os_version = input("版本号：")
     commit_text = "Update Version"
     commit = f"{commit_text} {device_name} {os_version}"
-    subprocess.run(["git", "add", "phone/"]) 
-    subprocess.run(["git", "commit","-m",commit]) 
-    subprocess.run(["git", "push"]) 
+    subprocess.run(["git", "add", "phone/"])
+    subprocess.run(["git", "commit", "-m", commit])
+    subprocess.run(["git", "push"])
