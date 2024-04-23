@@ -58,6 +58,5 @@ def main():
     if args.git_push:
         git_push()
 
-
 if __name__ == "__main__":  # 如果这个脚本文件是被直接运行的
     main()  # 调用main()函数
