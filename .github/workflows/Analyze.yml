@@ -53,7 +53,7 @@ jobs:
 
     - name: Set environment
       run: |
-       chmod 777 ./
+       chmod +x extract.erofs
        rm *.tar.gz *.zip
 
     - name: Download ROM
