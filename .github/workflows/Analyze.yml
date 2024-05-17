@@ -4,13 +4,20 @@ on:
   workflow_dispatch:
     inputs:
       link:
-        description: 'ROM 链接'
+        description: "ROM 链接"
         required: true
+      push:
+        description: "上传数据库"
+        required: true
+        type: choice
+        options:
+        - "是"
+        - "否"
       devicename:
-        description: '设备名'
+        description: "设备名"
         required: false
       osversion:
-        description: '系统版本'
+        description: "系统版本"
         required: false
 
 jobs:
@@ -35,30 +42,30 @@ jobs:
       run: |
         pip install -r requirements.txt
 
-    - name: Download extract.erofs
-      uses: robinraju/release-downloader@v1.10
-      with:
-        repository: "sekaiacg/erofs-utils"
-        latest: true
-        extract: true
-        fileName: 'erofs-utils-*-Linux_x86_64-*.zip'
-
     - name: Download payload-dumper-go
       uses: robinraju/release-downloader@v1.10
       with:
         repository: "ssut/payload-dumper-go"
         latest: true
         extract: true
-        fileName: 'payload-dumper-go_*_linux_amd64.tar.gz'
+        fileName: "payload-dumper-go_*_linux_amd64.tar.gz"
 
-    - name: Set environment
+    - name: Download extract.erofs
+      uses: robinraju/release-downloader@v1.10
+      with:
+        repository: "sekaiacg/erofs-utils"
+        latest: true
+        extract: true
+        fileName: "erofs-utils-*-Linux_x86_64-*.zip"
+
+    - name: Set permission
       run: |
        chmod +x extract.erofs
        rm *.tar.gz *.zip
 
     - name: Download ROM
       run: |
-        python main.py -d ${{ github.event.inputs.link }}
+        python main.py -d "${{ github.event.inputs.link }}"
 
     - name: Unzip payload.bin
       run: |
@@ -74,12 +81,11 @@ jobs:
       run: |
         ./extract.erofs -i system.img -x -T8
         rm *.img
-    
 
     - name: Remove exclude apk
       run: |
         python main.py -a
- 
+
     - name: Get version
       run: |
         python main.py -n
@@ -113,6 +119,12 @@ jobs:
         git config --global user.email "${GITHUB_ACTOR}@users.noreply.github.com"
         git config --global user.name "${GITHUB_ACTOR}"
         git add app_version.json app_code.json
-        git commit -m "Update Version ${{ github.event.inputs.devicename }} ${{ github.event.inputs.osversion }}"
-        git push origin main
+        if [ "${{ github.event.inputs.push }}" = "是" ]; then
+            git commit -m "Upload Database ${{ github.event.inputs.devicename }} ${{ github.event.inputs.osversion }}"
+            git push origin main
+          elif [ "${{ github.event.inputs.push }}" = "否" ]; then
+            exit 0
+          else
+            exit 0
+          fi
         
