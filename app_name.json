@@ -20,7 +20,7 @@
   "com.flyme.systemuieditor": "外观编辑器",
   "com.flyme.systemuitools": "系统界面工具",
   "com.flyme.telecom.usagedata.service": "电话服务",
-  "com.flyme.videoclips": "短视频",
+  "com.flyme.videoclips": "魅映工坊",
   "com.flyme.virtualdevice": "硬件共享",
   "com.flyme.voiceinteract": "跨端语音",
   "com.ibimuyu.lockscreen": "动态锁屏服务",
@@ -28,7 +28,7 @@
   "com.meizu.account": "Flyme 账号",
   "com.meizu.alphame": "Aicy Engine",
   "com.meizu.assistant": "Aicy 纵览",
-  "com.meizu.battery": "电量管理",
+  "com.meizu.battery": "电池",
   "com.meizu.callsetting": "电话设置",
   "com.meizu.cloud": "推送服务",
   "com.meizu.commdiagnostic": "通讯诊断",
@@ -55,7 +55,7 @@
   "com.meizu.media.imageservice": "图像服务",
   "com.meizu.media.music": "QQ音乐",
   "com.meizu.media.reader": "魅族微讯",
-  "com.meizu.media.video": "魅映工坊",
+  "com.meizu.media.video": "视频",
   "com.meizu.mstore": "应用商店",
   "com.meizu.mzbasestationsafe": "伪基站拦截",
   "com.meizu.mznfcpay": "Flyme Pay",
@@ -86,5 +86,6 @@
   "com.meizu.todolist": "待办事项",
   "com.flyme.secureservice": "安全服务",
   "com.flyme.sceneengine": "场景助手",
+  "com.flyme.agentruntime": "智能体容器",
   "com.meizu.flymelab": "Flyme 实验室"
 }
