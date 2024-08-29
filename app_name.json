@@ -87,5 +87,8 @@
   "com.flyme.secureservice": "安全服务",
   "com.flyme.sceneengine": "场景助手",
   "com.flyme.agentruntime": "智能体容器",
+  "com.meizu.flyme.agentstore": "智能体商店",
+  "com.flyme.callagent": "通话助手",
+  "com.meizu.earphone": "魅族耳机",
   "com.meizu.flymelab": "Flyme 实验室"
 }
